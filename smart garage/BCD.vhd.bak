@@ -1,0 +1,29 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity BCD is
+	Port(
+	
+	BCD1,BCD0 : buffer STD_LOGIC_VECTOR(3 downto 0)
+	);
+end BCD
+	
+Architecture arch of BCD is
+begin
+
+process()
+begin
+		if BCD0 = "1001" then
+			BCD0 <= "0000";
+			if BCD1 ="1001" then
+				BCD1 <= "000";
+				else
+					BCD1 <= BCD1 +'1';
+					end if;
+					else
+					BCD0 <= BCD0 +'1';
+					end if;
+					
+					end process;
+					end arch;

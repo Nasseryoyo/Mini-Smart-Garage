@@ -1,0 +1,48 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity ultrasonic sensor is
+    Port ( 
+           echo : in STD_LOGIC;
+			  trigger : out STD_LOGIC;
+           object_detected : out STD_LOGIC);
+end UltrasonicSensorInterface;
+
+architecture Behavioral of UltrasonicSensorInterface is
+    signal pulse_width_counter : integer := 0;
+    signal object_detected_internal : STD_LOGIC := '0';
+
+    constant PULSE_WIDTH_THRESHOLD : integer := 1000; -- Adjust based on your sensor's specifications
+
+begin
+
+    process
+    begin
+        if pulse_width_counter = PULSE_WIDTH_THRESHOLD then
+            object_detected_internal <= '1';
+        else
+            object_detected_internal <= '0';
+        end if;
+
+        wait for 1 ns; -- Adjust the wait duration based on your clock frequency
+        pulse_width_counter <= pulse_width_counter + 1;
+    end process;
+
+    process
+    begin
+        trigger <= '1'; -- Trigger the sensor (duration depends on sensor requirements)
+        wait for 10 us; -- Adjust the wait duration based on sensor requirements
+        trigger <= '0';
+
+        wait until echo = '1'; -- Wait for the start of the echo pulse
+        pulse_width_counter <= 0;
+
+        wait until echo = '0'; -- Wait for the end of the echo pulse
+
+        -- Object detection logic is handled in the first process
+        object_detected <= object_detected_internal;
+    end process;
+
+end Behavioral;

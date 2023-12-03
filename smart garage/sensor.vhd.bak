@@ -1,0 +1,10 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity sensor is 
+
+end sensor;
+
+architecture arch of sensor is
+begin
+end arch;

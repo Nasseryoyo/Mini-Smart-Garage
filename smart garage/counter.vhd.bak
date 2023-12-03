@@ -1,0 +1,10 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity counter is 
+
+end counter;
+
+architecture arch of counter is
+begin
+end arch;
